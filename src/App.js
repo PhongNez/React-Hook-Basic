@@ -16,7 +16,7 @@ function App() {
     let res = await fetchApiUser()
     console.log('>>> Check api: ', res);
     if (res && res.data) {
-      setList(res.data.data)
+      setList(res.data)
     }
   }
   return (
