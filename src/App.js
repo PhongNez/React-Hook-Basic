@@ -7,16 +7,19 @@ import { Container } from 'react-bootstrap';
 
 function App() {
   const [list, setList] = useState([])
-
+  const [totalPages, setTotalPages] = useState(0)
+  const [totalUsers, setTotalUsers] = useState(0)
   useEffect(() => {
-    getAllUser()
+    getAllUser(1)
   }, [])
 
-  const getAllUser = async () => {
-    let res = await fetchApiUser()
+  const getAllUser = async (page) => {
+    let res = await fetchApiUser(page)
     console.log('>>> Check api: ', res);
     if (res && res.data) {
       setList(res.data)
+      setTotalPages(res.total_pages)
+      setTotalUsers(res.total)
     }
   }
   return (
@@ -25,6 +28,9 @@ function App() {
       <Container>
         <TableUser
           list={list}
+          totalPages={totalPages}
+          totalUsers={totalUsers}
+          getAllUser={(page) => getAllUser(page)}
         /></Container>
     </div>
   );
