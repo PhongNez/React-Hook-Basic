@@ -1,12 +1,30 @@
+import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
+import { fetchApiUser } from '../services/UserService';
 
 const TableUser = (props) => {
-    let { list, totalPages } = props
+    const [list, setList] = useState([])
+    const [totalPages, setTotalPages] = useState(0)
+    const [totalUsers, setTotalUsers] = useState(0)
+    useEffect(() => {
+        getAllUser(1)
+    }, [])
+
+    const getAllUser = async (page) => {
+        let res = await fetchApiUser(page)
+        console.log('>>> Check api: ', res);
+        if (res && res.data) {
+            setList(res.data)
+            setTotalPages(res.total_pages)
+            setTotalUsers(res.total)
+        }
+    }
+
     console.log(totalPages);
     const handlePageClick = (event) => {
         console.log('>>>Check event: ', event.selected);
-        props.getAllUser(event.selected + 1)
+        getAllUser(event.selected + 1)
     }
     return (
         <>

@@ -2,36 +2,29 @@ import { useEffect, useState } from 'react';
 import './App.scss';
 import Header from './Components/Header';
 import TableUser from './Components/TableUser';
-import { fetchApiUser } from './services/UserService';
 import { Container } from 'react-bootstrap';
+import ModalAddNewUser from './Components/ModalAddNew';
 
 function App() {
-  const [list, setList] = useState([])
-  const [totalPages, setTotalPages] = useState(0)
-  const [totalUsers, setTotalUsers] = useState(0)
-  useEffect(() => {
-    getAllUser(1)
-  }, [])
-
-  const getAllUser = async (page) => {
-    let res = await fetchApiUser(page)
-    console.log('>>> Check api: ', res);
-    if (res && res.data) {
-      setList(res.data)
-      setTotalPages(res.total_pages)
-      setTotalUsers(res.total)
-    }
+  const [isShowModalAddNew, setIsShowModalAddNew] = useState(false)
+  const handleClose = () => {
+    setIsShowModalAddNew(false)
   }
   return (
     <div className='app-container'>
       <Header />
+
       <Container>
-        <TableUser
-          list={list}
-          totalPages={totalPages}
-          totalUsers={totalUsers}
-          getAllUser={(page) => getAllUser(page)}
-        /></Container>
+        <div className='my-3 add-new'>
+          <span><b>List User:</b></span>
+          <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add New User</button>
+        </div>
+        <TableUser />
+      </Container>
+      <ModalAddNewUser
+        show={isShowModalAddNew}
+        handleClose={handleClose}
+      />
     </div>
   );
 }
