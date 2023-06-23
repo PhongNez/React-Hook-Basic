@@ -3,4 +3,7 @@ const fetchApiUser = (page) => {
     return axios.get(`users?page=${page}`)
 }
 
-export { fetchApiUser }
+const createUser = (name, job) => {
+    return axios.post('users', { name, job })
+}
+export { fetchApiUser, createUser }

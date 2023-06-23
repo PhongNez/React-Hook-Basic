@@ -2,11 +2,25 @@ import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
 import { fetchApiUser } from '../services/UserService';
+import ModalEditUser from './ModalAddNew';
+import ModalConfirmDelete from './ModalConfirmDelete';
 
 const TableUser = (props) => {
     const [list, setList] = useState([])
     const [totalPages, setTotalPages] = useState(0)
     const [totalUsers, setTotalUsers] = useState(0)
+    const [isShowModalEdit, setIsShowModalEdit] = useState(false)
+    const [isShowModalDelete, setIsShowModalDelete] = useState(false)
+    const handleCloseEdit = () => {
+        setIsShowModalEdit(false)
+    }
+    const handleClose = () => {
+        setIsShowModalDelete(false)
+    }
+    const handleEdit = (name, job) => {
+        console.log("hello Edit", name, job);
+    }
+
     useEffect(() => {
         getAllUser(1)
     }, [])
@@ -35,7 +49,7 @@ const TableUser = (props) => {
                         <th>Email</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,11 +60,27 @@ const TableUser = (props) => {
                                 <td>{item.email}</td>
                                 <td>{item.first_name}</td>
                                 <td>{item.last_name}</td>
+                                <td>
+                                    <button className='btn btn-warning mx-3' onClick={() => setIsShowModalEdit(true)}>Edit</button>
+                                    <button className='btn btn-danger' onClick={() => setIsShowModalDelete(true)}>Update</button>
+                                </td>
                             </tr>
                         )
                     })}
                 </tbody>
             </Table>
+            <ModalEditUser
+                show={isShowModalEdit}
+                handleClose={handleCloseEdit}
+                title={'Modal edit new user'}
+                handleSave={(name, job) => handleEdit(name, job)}
+            />
+            <ModalConfirmDelete
+                show={isShowModalDelete}
+                handleClose={handleClose}
+                title={'Modal Confirm'}
+                handleSave={(name, job) => handleEdit(name, job)}
+            />
             <ReactPaginate
                 nextLabel="next >"
                 onPageChange={(event) => handlePageClick(event)}

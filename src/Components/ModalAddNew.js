@@ -1,20 +1,34 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { createUser } from '../services/UserService';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ModalAddNewUser = (props) => {
-    const { show, handleClose } = props
+    const { show, handleClose, title, handleSave } = props
     const [name, setName] = useState("")
     const [job, setJob] = useState("")
 
-    const handleSaveNewUser = () => {
-        console.log(">>>Check: ", "name: ", name, "job: ", job);
-    }
+    // const handleSaveNewUser = async () => {
+    //     console.log(">>>Check: ", "name: ", name, "job: ", job);
+    //     let res = await createUser(name, job)
+    //     console.log(res);
+    //     if (res && res.id) {
+    //         //success
+    //         handleClose()
+    //         setName('')
+    //         setJob('')
+    //         toast.success('Thành công')
+    //     }
+    //     else {
+    //         //err
+    //     }
+    // }
     return (
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal Add New User</Modal.Title>
+                    <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
@@ -39,7 +53,8 @@ const ModalAddNewUser = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSaveNewUser()}>
+                    {/* <Button variant="primary" onClick={() => handleSaveNewUser()}> */}
+                    <Button variant="primary" onClick={() => handleSave(name, job)}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
