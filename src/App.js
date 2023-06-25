@@ -4,38 +4,33 @@ import Header from './Components/Header';
 import TableUser from './Components/TableUser';
 import { Container } from 'react-bootstrap';
 import ModalAddNewUser from './Components/ModalAddNew';
+import Home from './Components/Home';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+  BrowserRouter,
+  Routes
+} from "react-router-dom";
 function App() {
-  const [isShowModalAddNew, setIsShowModalAddNew] = useState(false)
-  const [isShowModalEdit, setIsShowModalEdit] = useState(false)
-  const handleClose = () => {
-    setIsShowModalAddNew(false)
-  }
-  const handleAddnew = (name, job) => {
-    console.log('Hello Phong Add new công việc: ', job);
-  }
   return (
     <>
       <div className='app-container'>
-        <Header />
+
 
         <Container>
-          <div className='my-3 add-new'>
-            <span><b>List User:</b></span>
-            <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add New User</button>
-          </div>
-          <TableUser />
-        </Container>
-        <ModalAddNewUser
-          show={isShowModalAddNew}
-          handleClose={handleClose}
-          title={'Modal add new user'}
-          handleSave={(name, job) => handleAddnew(name, job)}
-        />
+          <Header />
 
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/user" element={<TableUser />} />
+          </Routes>
+
+        </Container>
       </div>
       <ToastContainer
         position="top-right"

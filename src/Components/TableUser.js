@@ -4,13 +4,22 @@ import ReactPaginate from 'react-paginate';
 import { fetchApiUser } from '../services/UserService';
 import ModalEditUser from './ModalAddNew';
 import ModalConfirmDelete from './ModalConfirmDelete';
+import ModalAddNewUser from './ModalAddNew';
 
 const TableUser = (props) => {
+
     const [list, setList] = useState([])
     const [totalPages, setTotalPages] = useState(0)
     const [totalUsers, setTotalUsers] = useState(0)
+    const [isShowModalAdd, setIsShowModalAdd] = useState(false)
     const [isShowModalEdit, setIsShowModalEdit] = useState(false)
     const [isShowModalDelete, setIsShowModalDelete] = useState(false)
+    const handleAddnew = (name, job) => {
+        console.log('Hello Phong Add new công việc: ', job);
+    }
+    const handleCloseAdd = () => {
+        setIsShowModalAdd(false)
+    }
     const handleCloseEdit = () => {
         setIsShowModalEdit(false)
     }
@@ -41,7 +50,10 @@ const TableUser = (props) => {
         getAllUser(event.selected + 1)
     }
     return (
-        <>
+        <><div className='my-3 add-new'>
+            <span><b>List User:</b></span>
+            <button className='btn btn-success' onClick={() => setIsShowModalAdd(true)}>Add New User</button>
+        </div>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -69,6 +81,12 @@ const TableUser = (props) => {
                     })}
                 </tbody>
             </Table>
+            <ModalAddNewUser
+                show={isShowModalAdd}
+                handleClose={handleCloseAdd}
+                title={'Modal add new user'}
+            />
+
             <ModalEditUser
                 show={isShowModalEdit}
                 handleClose={handleCloseEdit}
